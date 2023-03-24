@@ -67,7 +67,7 @@ function myTheme_customPost() {
       'capability_type'       => 'post', // Used to build the read, edit, and delete capabilities.
       // 'map_meta_cap'          => false, // Whether to use the internal default meta capability handling.
       'supports'              => array( 'title', 'editor', 'comments', 'revisions', 'trackbacks', 'author', 'excerpt', 'page-attributes', 'thumbnail', 'custom-fields', 'post-formats' ), // Core feature(s) the post type supports. Add or remove as you require.
-      'has_archive'           => true, // Whether the post type has an archive. If this is a string, this will be the archive slug. E.g. the single slug may be 'project', but the archive slug could be 'portfolio'.
+      'has_archive'           => 'portfolio', // Whether the post type has an archive. If this is a string, this will be the archive slug. E.g. the single slug may be 'project', but the archive slug could be 'portfolio'.
       'rewrite'               => array( // Triggers permalinks for the page.  Defaults to true, but can be set to false
                                   'slug'        => 'project', // Customises the slug to single posts
                                   'with_front'  => true, // Whether the posts should be prepended with WP_Rewrite::$front.
@@ -99,9 +99,9 @@ function myTheme_customTag() {
    * A list of all available labels can be found at @link https://developer.wordpress.org/reference/functions/register_taxonomy/#arguments
    */
 	$labels = array(
-		'name'                          => _x( 'Categories', 'Taxonomy general name', 'zero-theme' ),
-		'singular_name'                 => _x( 'Category', 'Taxonomy singular name', 'zero-theme' ),
-    'menu_name'                     => __( 'Categories', 'zero-theme' ),
+		'name'                          => _x( 'Project Categories', 'Taxonomy general name', 'zero-theme' ),
+		'singular_name'                 => _x( 'Project Category', 'Taxonomy singular name', 'zero-theme' ),
+    'menu_name'                     => __( 'Project Categories', 'zero-theme' ),
 		'all_items'                     => __( 'All Categories', 'zero-theme' ),
 		'edit_item'                     => __( 'Edit Category', 'zero-theme' ),
 		'view_item'                     => __( 'View Category', 'zero-theme' ),
@@ -176,9 +176,9 @@ function myTheme_customTags() {
    * A list of all available labels can be found at @link https://developer.wordpress.org/reference/functions/register_taxonomy/#arguments
    */
 	$labels = array(
-		'name'                          => _x( 'Tags', 'Taxonomy general name', 'zero-theme' ),
-		'singular_name'                 => _x( 'Tag', 'Taxonomy singular name', 'zero-theme' ),
-    'menu_name'                     => __( 'Tags', 'zero-theme' ),
+		'name'                          => _x( 'Project Tags', 'Taxonomy general name', 'zero-theme' ),
+		'singular_name'                 => _x( 'Project Tag', 'Taxonomy singular name', 'zero-theme' ),
+    'menu_name'                     => __( 'Project Tags', 'zero-theme' ),
 		'all_items'                     => __( 'All Tags', 'zero-theme' ),
 		'edit_item'                     => __( 'Edit Tag', 'zero-theme' ),
 		'view_item'                     => __( 'View Tag', 'zero-theme' ),
@@ -246,9 +246,67 @@ function myTheme_customTags() {
 	register_taxonomy( 'projecttags', array( 'portfolio' ), $args );
 
 }
+
+
+/**
+ * 'Services' taxonomy, to demonstrate how it would appear on the site
+ */
+function myTheme_projectServices() {
+
+  /**
+   * @param array $labels Sets the text labels to appear in the taxonomy.
+   * A list of all available labels can be found at @link https://developer.wordpress.org/reference/functions/register_taxonomy/#arguments
+   */
+	$labels = array(
+		'name'                          => _x( 'Project Services', 'Taxonomy general name', 'zero-theme' ),
+		'singular_name'                 => _x( 'Project Service', 'Taxonomy singular name', 'zero-theme' ),
+    'menu_name'                     => __( 'Project Services', 'zero-theme' ),
+		'all_items'                     => __( 'All Services', 'zero-theme' ),
+		'edit_item'                     => __( 'Edit Service', 'zero-theme' ),
+		'view_item'                     => __( 'View Service', 'zero-theme' ),
+		'update_item'                   => __( 'Update Service', 'zero-theme' ),
+		'add_new_item'                  => __( 'Add New Service', 'zero-theme' ),
+		'new_item_name'                 => __( 'New Service Name', 'zero-theme' ),
+		'parent_item'                   => __( 'Parent Service', 'zero-theme' ),
+		'parent_item_colon'             => __( 'Parent Service:', 'zero-theme' ),
+		'search_items'                  => __( 'Search Services', 'zero-theme' ),
+    'not_found'                     => __( 'No services found.', 'zero-theme' ),
+    'back_to_items'                 => __( '← Back to services', 'zero-theme' ),
+	);
+
+  /**
+   * @param array $args Sets the parameters to register the post type
+   * All acceptable parameters are listed here. Those commented out can be safely removed, but are kept here for your reference.
+   */
+	$args = array(
+		'labels'                => $labels,
+    'description'           => 'List of services that have been used for the project',
+    'public'                => true, // Whether a taxonomy is intended for use publicly either via the admin interface or by front-end users.
+    'publicly_queryable'    => true, // Whether the taxonomy is publicly queryable.
+		'hierarchical'          => true, // Whether the taxonomy is hierarchical.
+		'show_ui'               => true, // Whether to generate and allow a UI for managing terms in this taxonomy in the admin.
+    'show_in_menu'          => true, // Whether to show the taxonomy in the admin menu.
+    'show_in_nav_menus'     => false, // Makes this taxonomy available for selection in navigation menus.
+    'show_in_rest'          => true, // Whether to include the taxonomy in the REST API. Set this to true for the taxonomy to be available in the block editor.
+    'show_in_quick_edit'    => true, // Whether to show the taxonomy in the quick/bulk edit panel.
+    'show_admin_column'     => true, // Whether to display a column for the taxonomy on its post type listing screens.
+	);
+
+  /**
+   * Registers taxonomy and assigns it to custom post type
+   * 
+   * @param string $taxonomy Taxonomy key, must not exceed 32 characters and may only contain lowercase alphanumeric characters, dashes, and underscores.
+   * @param array|string $object_type Sets the post types the taxonomy can be assigned to.
+   * @param array|string $args Array or string of arguments to register taxonomy
+   */
+	register_taxonomy( 'project_services', array( 'portfolio' ), $args );
+
+}
+
 // hook into the init action and call create_book_taxonomies when it fires
 add_action( 'init', 'myTheme_customTag', 0 );
 add_action( 'init', 'myTheme_customTags', 0 );
+add_action( 'init', 'myTheme_projectServices', 0 );
 
 function get_custom_post_type_template($archive_template){
   global $post;

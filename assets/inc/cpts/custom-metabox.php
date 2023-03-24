@@ -21,27 +21,40 @@ function myTheme_customMetabox() {
 // it is a callback function which actually displays the content of the meta box
 function myTheme_metaboxCB( $post ){
 
-	$seo_title = get_post_meta( $post->ID, 'seo_title', true );
-	$seo_robots = get_post_meta( $post->ID, 'seo_robots', true );
+	$client_name = get_post_meta( $post->ID, 'client_name', true );
+	$client_url = get_post_meta( $post->ID, 'client_url', true );
+	$is_external = get_post_meta( $post->ID, 'is_external', true );
+	$nofollow = get_post_meta( $post->ID, 'nofollow', true );
+	$noindex = get_post_meta( $post->ID, 'noindex', true );
 
-	// nonce, actually I think it is not necessary here
-	wp_nonce_field( 'somerandomstr', '_mishanonce' );
+	wp_nonce_field( 'project_zero', '_zerononce' );
 
 	echo '<table class="form-table">
 		<tbody>
 			<tr>
-				<th><label for="seo_title">SEO title</label></th>
-				<td><input type="text" id="seo_title" name="seo_title" value="' . esc_attr( $seo_title ) . '" class="regular-text"></td>
+				<th><label for="client_name">Client name:</label></th>
+				<td><input type="text" id="client_name" name="client_name" value="' . esc_attr( $client_name ) . '" class="regular-text"></td>
 			</tr>
 			<tr>
-				<th><label for="seo_tobots">SEO robots</label></th>
+				<th><label for="client_url">Website URL:</label></th>
+				<td><input type="text" id="client_url" name="client_url" value="' . esc_attr( $client_url ) . '" class="regular-text"></td>
+			</tr>
+			<tr>
+				<th><label for="is_external">Open in new window/tab:</label></th>
 				<td>
-					<select id="seo_robots" name="seo_robots">
-						<option value="">Select...</option>
-						<option value="index,follow"' . selected( 'index,follow', $seo_robots, false ) . '>Show for search engines</option>
-						<option value="noindex,nofollow"' . selected( 'noindex,nofollow', $seo_robots, false ) . '>Hide for search engines</option>
+					<select id="is_external" name="is_external">
+						<option value="_self" ' . selected( '_self', $is_external, false ) . '>Open in the current window/tab</option>
+						<option value="_blank" ' . selected( '_blank', $is_external, false ) . '>Open in a new window/tab</option>
 					</select>
 				</td>
+			</tr>
+			<tr>
+				<th><label for="nofollow">Add nofollow:</label></th>
+				<td><input type="checkbox" name="nofollow" value="1" ' . checked( $nofollow, 1, false ) . ' /></td>
+			</tr>
+			<tr>
+				<th><label for="noindex">Add noindex:</label></th>
+				<td><input type="checkbox" name="noindex" value="1" ' . checked( $noindex, 1, false ) . ' /></td>
 			</tr>
 		</tbody>
 	</table>';
@@ -53,7 +66,7 @@ add_action( 'save_post_portfolio', 'myTheme_saveMetaData', 10, 2 );
 function myTheme_saveMetaData( $post_id, $post ) {
 
 	// nonce check
-	if ( ! isset( $_POST[ '_mishanonce' ] ) || ! wp_verify_nonce( $_POST[ '_mishanonce' ], 'somerandomstr' ) ) {
+	if ( ! isset( $_POST[ '_zerononce' ] ) || ! wp_verify_nonce( $_POST[ '_zerononce' ], 'project_zero' ) ) {
 		return $post_id;
 	}
 
@@ -69,20 +82,30 @@ function myTheme_saveMetaData( $post_id, $post ) {
 		return $post_id;
 	}
 
-	// define your own post type here
-	if( 'page' !== $post->post_type ) {
-		return $post_id;
-	}
-
-	if( isset( $_POST[ 'seo_title' ] ) ) {
-		update_post_meta( $post_id, 'seo_title', sanitize_text_field( $_POST[ 'seo_title' ] ) );
+	if( isset( $_POST[ 'client_name' ] ) ) {
+		update_post_meta( $post_id, 'client_name', sanitize_text_field( $_POST[ 'client_name' ] ) );
 	} else {
-		delete_post_meta( $post_id, 'seo_title' );
+		delete_post_meta( $post_id, 'client_name' );
 	}
-	if( isset( $_POST[ 'seo_robots' ] ) ) {
-		update_post_meta( $post_id, 'seo_robots', sanitize_text_field( $_POST[ 'seo_robots' ] ) );
+	if( isset( $_POST[ 'client_url' ] ) ) {
+		update_post_meta( $post_id, 'client_url', sanitize_text_field( $_POST[ 'client_url' ] ) );
 	} else {
-		delete_post_meta( $post_id, 'seo_robots' );
+		delete_post_meta( $post_id, 'client_url' );
+	}
+	if( isset( $_POST[ 'is_external' ] ) ) {
+		update_post_meta( $post_id, 'is_external', $_POST[ 'is_external' ] );
+	} else {
+		delete_post_meta( $post_id, 'is_external' );
+	}
+	if( isset( $_POST[ 'nofollow' ] ) ) {
+		update_post_meta( $post_id, 'nofollow', $_POST[ 'nofollow' ] );
+	} else {
+		delete_post_meta( $post_id, 'nofollow' );
+	}
+	if( isset( $_POST[ 'noindex' ] ) ) {
+		update_post_meta( $post_id, 'noindex', $_POST[ 'noindex' ] );
+	} else {
+		delete_post_meta( $post_id, 'noindex' );
 	}
 
 	return $post_id;
