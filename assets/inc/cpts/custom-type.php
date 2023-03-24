@@ -308,30 +308,29 @@ add_action( 'init', 'myTheme_customTag', 0 );
 add_action( 'init', 'myTheme_customTags', 0 );
 add_action( 'init', 'myTheme_projectServices', 0 );
 
-function get_custom_post_type_template($archive_template){
+function myPlugin_postArchive_portfolio($archive_template){
   global $post;
-  $plugin_root_dir = WP_PLUGIN_DIR . '/product-plugin/';
 
-  if (is_archive() && get_post_type($post) == 'product'){
-      $archive_template = $plugin_root_dir . '/inc/templates/archive-product.php';
+  if (is_archive() && get_post_type($post) == 'portfolio'){
+      $archive_template = ZEROPLUGIN_PATH . '/assets/inc/templates/archive-portfolio.php';
   }
   return $archive_template;
 }
-add_filter('archive_template', 'get_custom_post_type_template');
+add_filter('archive_template', 'myPlugin_postArchive_portfolio');
 
-function load_movie_template( $template ) {
+function myPlugin_singlePost_portfolio( $template ) {
   global $post;
 
-  if ( 'movie' === $post->post_type && locate_template( array( 'single-movie.php' ) ) !== $template ) {
+  if (get_post_type($post) == 'product' && locate_template( array( 'single-portfolio.php' ) ) !== $template ) {
       /*
-       * This is a 'movie' post
-       * AND a 'single movie template' is not found on
+       * This is a 'portfolio' post
+       * AND a 'single portfolio template' is not found on
        * theme or child theme directories, so load it
        * from our plugin directory.
        */
-      return plugin_dir_path( __FILE__ ) . 'single-movie.php';
+      return ZEROPLUGIN_PATH . '/assets/inc/templates/single-portfolio.php';
   }
 
   return $template;
 }
-add_filter( 'single_template', 'load_movie_template' );
+add_filter( 'single_template', 'myPlugin_singlePost_portfolio' );
