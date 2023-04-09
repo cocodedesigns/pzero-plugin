@@ -1,7 +1,7 @@
 # Legend has it ...
 Long ago, in the before times (about 2019), a young Mage skilled in the craft of Pressing Words became aware of others looking to embark on the journey of learning this powerful magicks.  He sought to create an aide, a guide for beginners taking their first steps on the path to their development.  This guide became known as "Project Zero" and would grow and evolve to respect and hold true two of the Prime Dieties: Sehanine, the Moonweaver; and Avandra, the Changebringer.
 
-[![GitHub license](https://img.shields.io/github/license/cocodedesigns/cocode-zero?style=for-the-badge)](https://raw.githubusercontent.com/cocodedesigns/pzero-plugin/master/LICENSE.md)
+[![GitHub license](https://img.shields.io/github/license/cocodedesigns/pzero-plugin?style=for-the-badge)](https://raw.githubusercontent.com/cocodedesigns/pzero-plugin/master/LICENSE.md)
 ![GitHub release](https://img.shields.io/github/release/cocodedesigns/pzero-plugin?style=for-the-badge)
 
 ## New name, who dis?
